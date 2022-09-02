@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
     const geog = `POINT(${long} ${lat})`;
 
     const event = await pool.query(
-      "INSERT INTO events (title, date, time, description, contact, geog) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, title, date, time, description, contact, ST_X(ST_TRANSFORM(geog::geometry, 4326)) AS long, ST_Y(ST_TRANSFORM(geog::geometry, 4326)) AS lat",
+      "INSERT INTO events (title, date, time, description, contact, geog) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, title, date, time, description, contact, ST_X(ST_TRANSFORM(geog::geometry, 4326)) AS lat, ST_Y(ST_TRANSFORM(geog::geometry, 4326)) AS long",
       [title, date, time, description, contact, geog]
     );
 
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
     const { title, long, lat, radius } = req.query || null;
 
     let query =
-      "SELECT id, title, date, time, description, contact, ST_X(ST_TRANSFORM(geog::geometry, 4326)) AS long, ST_Y(ST_TRANSFORM(geog::geometry, 4326)) AS lat FROM events";
+      "SELECT id, title, date, time, description, contact, ST_X(ST_TRANSFORM(geog::geometry, 4326)) AS lat, ST_Y(ST_TRANSFORM(geog::geometry, 4326)) AS long FROM events";
     let queryVars = [];
 
     if (title && radius == undefined) {
@@ -67,7 +67,7 @@ router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const event = await pool.query(
-      "SELECT id, title, date, time, description, contact, ST_X(ST_TRANSFORM(geog::geometry, 4326)) AS long, ST_Y(ST_TRANSFORM(geog::geometry, 4326)) AS lat FROM events WHERE id = $1",
+      "SELECT id, title, date, time, description, contact, ST_X(ST_TRANSFORM(geog::geometry, 4326)) AS lat, ST_Y(ST_TRANSFORM(geog::geometry, 4326)) AS long FROM events WHERE id = $1",
       [id]
     );
 
