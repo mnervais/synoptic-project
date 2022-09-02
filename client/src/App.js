@@ -14,8 +14,9 @@ function App() {
             id="titleInput"
             className=""
             name="title"
-            type="text"
-            defaultValue=""
+            type="datetime-local"
+            defaultValue="2022-09-02T13:02"
+            min="2022-09-02T13:02"
           />
         </div>
         <AppButton
