@@ -14,9 +14,10 @@ const containerStyle = {
   height: "100vh",
 };
 const center = {
-  lat: 51.5073219,
-  lng: -0.1276474,
+  lng: -0.664654,
+  lat: 51.916249,
 };
+const zoom = 12;
 
 function App() {
   const [map, setMap] = useState(null);
@@ -28,14 +29,8 @@ function App() {
   });
 
   const onLoad = useCallback(async function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
+    map.setZoom(zoom);
     setMap(map);
-
-    // load events
-    const initalEvents = await listEvents(-0.664654, 51.864922, 5);
-    console.log(initalEvents);
-    setEvents(initalEvents);
   }, []);
 
   const onUnmount = useCallback(function callback(map) {
@@ -48,9 +43,27 @@ function App() {
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
-          zoom={2}
+          zoom={zoom}
           onLoad={onLoad}
           onUnmount={onUnmount}
+          onIdle={async () => {
+            // load events
+            try {
+              const initalEvents = await listEvents(
+                map.getBounds().getNorthEast().lat(),
+                map.getBounds().getNorthEast().lng(),
+                map.getBounds().getSouthWest().lat(),
+                map.getBounds().getSouthWest().lng()
+              );
+              setEvents(initalEvents);
+            } catch (err) {}
+          }}
+          onZoomChanged={() => {
+            try {
+            } catch (error) {
+              console.log(error);
+            }
+          }}
         >
           {events.map(function (item, i) {
             return (
