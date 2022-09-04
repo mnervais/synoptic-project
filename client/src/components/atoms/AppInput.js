@@ -1,6 +1,15 @@
 import { useState } from "react";
 
-const AppInput = ({ label, id, className, name, type, defaultValue, min }) => {
+const AppInput = ({
+  label,
+  id,
+  className,
+  name,
+  type,
+  defaultValue,
+  min,
+  onChangeCallback,
+}) => {
   const [value, setValue] = useState(defaultValue);
 
   return (
@@ -15,6 +24,7 @@ const AppInput = ({ label, id, className, name, type, defaultValue, min }) => {
         min={min}
         onChange={(e) => {
           setValue(e.target.value);
+          onChangeCallback(e);
         }}
       />
     </>
