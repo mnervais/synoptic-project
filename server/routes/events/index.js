@@ -30,9 +30,10 @@ router.get("/", async (req, res) => {
       "SELECT id, title, date, time, description, contact, ST_X(ST_TRANSFORM(geog::geometry, 4326)) AS long, ST_Y(ST_TRANSFORM(geog::geometry, 4326)) AS lat FROM events";
     let queryVars = [];
 
-    if (title && north == undefined) {
+    if (title.length >= 0 && north == undefined) {
+      console.log("test");
       queryVars.push(title);
-      query += ` WHERE title ILIKE '%' || $${queryVars.length} || '%'`;
+      query += ` WHERE title ILIKE '%' || $${queryVars.length} || '%' AND LENGTH($${queryVars.length}) > 0;`;
     }
 
     if (north) {
