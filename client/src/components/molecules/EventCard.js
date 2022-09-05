@@ -16,9 +16,7 @@ const EventCard = ({ id, className, event }) => {
             {day}/{month}/{year}
           </small>
           <small className="text-muted"> @</small>
-          <small className="text-muted">
-            {event.time.substring(0, event.time.length - 3)}
-          </small>
+          <small className="text-muted">{event.time}</small>
         </h3>
 
         <dl className="row">

@@ -12,3 +12,4 @@ CREATE TABLE events (
     geog geography(point) NOT NULL
 );
 
+
