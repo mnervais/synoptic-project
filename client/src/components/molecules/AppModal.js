@@ -5,16 +5,14 @@ const Header = () => null;
 const Body = () => null;
 const Footer = () => null;
 
-const AppModal = ({ defaultOpen, children }) => {
-  const [open, setOpen] = useState(defaultOpen);
-
+const AppModal = ({ onClick, onClickCallback, children }) => {
   const header = children.find((el) => el.type === Header);
   const body = children.find((el) => el.type === Body);
   const footer = children.find((el) => el.type === Footer);
 
   return (
-    <div className={`modal ${!open || "d-block"}`} tabIndex="-1" role="dialog">
-      <div className="modal-dialog" role="document">
+    <div className="modal d-block" tabIndex="-1" role="dialog">
+      <div className="" role="document">
         <div className="modal-content">
           <div className="modal-header">
             {header ? header.props.children : null}
@@ -23,9 +21,11 @@ const AppModal = ({ defaultOpen, children }) => {
               className="btn-light close justify-content-end"
               type="button"
               onClick={() => {
-                setOpen(false);
+                onClick();
               }}
-              onClickCallback={() => {}}
+              onClickCallback={() => {
+                onClickCallback();
+              }}
             >
               <span aria-hidden="true">&times;</span>
             </AppButton>
