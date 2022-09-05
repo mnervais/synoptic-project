@@ -11,7 +11,7 @@ const AppButton = ({
       id={id}
       className={`btn btn-primary ${className}`}
       type={type}
-      onClick={(e) => {
+      onClick={() => {
         onClick();
         onClickCallback();
       }}
