@@ -44,7 +44,7 @@ const EventSearch = ({
           }}
         />
       </div>
-      <div>
+      <div id="searchResults">
         <EventList
           events={events}
           id=""
