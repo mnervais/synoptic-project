@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { listEventsByTitle } from "../../util/API";
+import { eventExpired } from "../../util/filter";
 
 import SearchBar from "../molecules/SearchBar";
 import EventList from "../molecules/EventList";
@@ -18,6 +19,10 @@ const EventSearch = ({
   const listEvents = async (title) => {
     try {
       const listEvents = await listEventsByTitle(title);
+      listEvents.forEach((event, index) => {
+        if (eventExpired(event)) listEvents.splice(index, 1);
+      });
+
       setEvents(listEvents);
       setFilteredEvents(listEvents);
     } catch (err) {}

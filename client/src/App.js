@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Marker } from "@react-google-maps/api";
 import { listEventsByBounds as ListEventsByBounds } from "./util/API";
+import { eventExpired } from "./util/filter";
 
 import EventSearchBar from "./components/organisms/EventSearchBar";
 import EventInputModal from "./components/organisms/EventInputModal";
@@ -45,6 +46,11 @@ function App() {
         map.getBounds().getSouthWest().lat(),
         map.getBounds().getSouthWest().lng()
       );
+
+      initalEvents.forEach((event, index) => {
+        if (eventExpired(event)) initalEvents.splice(index, 1);
+      });
+
       setEvents(initalEvents);
     } catch (err) {}
   };
