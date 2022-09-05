@@ -1,9 +1,9 @@
-const AppModal = ({ children }) => {
+const AppCard = ({ id, className, classNameBody, children }) => {
   return (
-    <div className="card">
-      <div className="card-body">{children}</div>
+    <div id={`${id}`} className={`${className} card`}>
+      <div className={`${classNameBody} card-body`}>{children}</div>
     </div>
   );
 };
 
-export default AppModal;
+export default AppCard;

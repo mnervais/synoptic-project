@@ -24,36 +24,49 @@ router.post("/", async (req, res) => {
 // GET
 router.get("/", async (req, res) => {
   try {
-    const { title, long, lat, radius } = req.query || null;
+    const { title, north, east, south, west } = req.query || null;
 
     let query =
       "SELECT id, title, date, time, description, contact, ST_X(ST_TRANSFORM(geog::geometry, 4326)) AS long, ST_Y(ST_TRANSFORM(geog::geometry, 4326)) AS lat FROM events";
     let queryVars = [];
 
-    if (title && radius == undefined) {
+    if (title?.length >= 0 && north == undefined) {
       queryVars.push(title);
-      query += ` WHERE title ILIKE '%' || $${queryVars.length} || '%'`;
+      query += ` WHERE title ILIKE '%' || $${queryVars.length} || '%' AND LENGTH($${queryVars.length}) > 0;`;
     }
-    if (long && radius == undefined) {
-      queryVars.push(long);
-      query += ` ${
-        queryVars.length == 1 ? "WHERE" : "AND"
-      } ST_X(ST_TRANSFORM(geog::geometry, 4326)) = $${queryVars.length}`;
+
+    if (north && title == undefined) {
+      let eastNorth = `${east} ${north}`; // x2 to close polygon
+      let eastSouth = `${east} ${south}`;
+      let westSouth = `${west} ${south}`;
+      let westNorth = `${west} ${north}`;
+      let polygon = `POLYGON((${eastNorth}, ${eastSouth}, ${westSouth}, ${westNorth}, ${eastNorth}))`;
+      let point =
+        "st_makePOINT(ST_X(ST_TRANSFORM(geog::geometry, 4326)), ST_Y(ST_TRANSFORM(geog::geometry, 4326)))";
+
+      query += ` WHERE ST_Contains(ST_GEOMFROMTEXT('${polygon}'), ${point});`;
     }
-    if (lat && radius == undefined) {
-      queryVars.push(lat);
-      query += ` ${
-        queryVars.length == 1 ? "WHERE" : "AND"
-      } ST_Y(ST_TRANSFORM(geog::geometry, 4326)) = $${queryVars.length}`;
-    }
-    if (radius) {
-      queryVars.push(radius);
-      query += ` ${
-        queryVars.length == 1 ? "WHERE" : "AND"
-      } ST_DistanceSphere(geog::geometry, ST_MakePoint(${long},${lat})) <= $${
-        queryVars.length
-      } * 1609.34`;
-    }
+
+    // if (long && radius == undefined) {
+    //   queryVars.push(long);
+    //   query += ` ${
+    //     queryVars.length == 1 ? "WHERE" : "AND"
+    //   } ST_X(ST_TRANSFORM(geog::geometry, 4326)) = $${queryVars.length}`;
+    // }
+    // if (lat && radius == undefined) {
+    //   queryVars.push(lat);
+    //   query += ` ${
+    //     queryVars.length == 1 ? "WHERE" : "AND"
+    //   } ST_Y(ST_TRANSFORM(geog::geometry, 4326)) = $${queryVars.length}`;
+    // }
+    // if (radius) {
+    //   queryVars.push(radius);
+    //   query += ` ${
+    //     queryVars.length == 1 ? "WHERE" : "AND"
+    //   } ST_DistanceSphere(geog::geometry, ST_MakePoint(${long},${lat})) <= $${
+    //     queryVars.length
+    //   } * 1609.34`;
+    // }
 
     const events = await pool.query(query, queryVars);
     res.json(events.rows);

@@ -1,8 +1,9 @@
-const AppListItem = ({ id, className, onClick, children }) => {
+const AppListItem = ({ id, className, role, onClick, children }) => {
   return (
     <li
       id={id}
-      className={`list-group-item ${className}`}
+      className={`list-group-item ${className} `}
+      role={role}
       onClick={() => {
         onClick();
       }}
