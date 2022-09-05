@@ -23,6 +23,7 @@ const SearchBar = ({ id, className, onChangeCallback }) => {
             className=""
             name="title"
             type="search"
+            placeholder="Search..."
             defaultValue={value}
             onChangeCallback={(e) => {
               setValue(e.target.value);

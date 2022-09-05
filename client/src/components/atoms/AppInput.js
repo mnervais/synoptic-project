@@ -6,6 +6,7 @@ const AppInput = ({
   className,
   name,
   type,
+  placeholder,
   defaultValue,
   min,
   onChangeCallback,
@@ -17,9 +18,10 @@ const AppInput = ({
       <label htmlFor={id}>{label}</label>
       <input
         id={id}
-        className={`form-control ${className}`}
+        className={`form-control ${className} mb-1`}
         name={name}
         type={type}
+        placeholder={placeholder}
         value={value}
         min={min}
         onChange={(e) => {

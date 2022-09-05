@@ -4,6 +4,7 @@ import { Marker } from "@react-google-maps/api";
 import { listEventsByBounds as ListEventsByBounds } from "./util/API";
 
 import EventSearchBar from "./components/organisms/EventSearchBar";
+import EventInputModal from "./components/organisms/EventInputModal";
 
 import "./App.css";
 
@@ -20,6 +21,10 @@ function App() {
   });
   const [zoom, setZoom] = useState(12);
   const [events, setEvents] = useState([]);
+  const [event, setEvent] = useState({});
+  const [eventInputModalOpen, setEventInputModalOpen] = useState(true);
+  const [ddClickLong, setDdClickLong] = useState(0.0);
+  const [ddClickLat, setDdClickLat] = useState(0.0);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -51,37 +56,75 @@ function App() {
   return (
     !isLoaded || (
       <div className="App">
-        <EventSearchBar
-          id=""
-          className=""
-          onEventChange={(event) => {
-            if (event?.title) {
-              setCenter({
-                lng: event.long,
-                lat: event.lat,
-              });
-              setZoom(15);
-            }
-          }}
-        />
+        <div className="map-controls">
+          <EventSearchBar
+            id=""
+            className="event-search"
+            event={event}
+            setEvent={setEvent}
+            onEventChange={(event) => {
+              if (event?.title) {
+                setCenter({
+                  lng: event.long,
+                  lat: event.lat,
+                });
+                setZoom(15);
+              }
+            }}
+          />
+
+          {!eventInputModalOpen || (
+            <EventInputModal
+              id=""
+              className="event-inputModal"
+              onAddEventCallback={(event) => {
+                setCenter({
+                  lng: event.long,
+                  lat: event.lat,
+                });
+                setZoom(15);
+                setEvent(event);
+              }}
+              setEventInputModalOpen={setEventInputModalOpen}
+              ddClickLong={ddClickLong}
+              ddClickLat={ddClickLat}
+            />
+          )}
+        </div>
 
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
+          clickableIcons={false}
           zoom={zoom}
           onLoad={onLoad}
           onUnmount={onUnmount}
           onIdle={listEventsByBounds}
+          options={{ disableDoubleClickZoom: true }}
+          onDblClick={(e) => {
+            document.querySelector("#titleInput").setAttribute("value", "");
+            console.log(document.querySelector("#titleInput"));
+            setDdClickLong(e.latLng.lng());
+            setDdClickLat(e.latLng.lat());
+            setEventInputModalOpen(true);
+          }}
         >
           {events.map(function (item, i) {
             return (
               <Marker
                 key={i}
+                clickable={true}
                 position={{
                   lng: item.long,
                   lat: item.lat,
                 }}
-              />
+                onClick={(e) => {
+                  setEvent(item);
+                  setZoom(15);
+                }}
+              >
+                <script value={item}></script>
+              </Marker>
             );
           })}
         </GoogleMap>

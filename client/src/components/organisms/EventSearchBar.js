@@ -5,9 +5,8 @@ import SearchBar from "../molecules/SearchBar";
 import EventList from "../molecules/EventList";
 import EventCard from "../molecules/EventCard";
 
-const EventSearch = ({ id, className, onEventChange }) => {
+const EventSearch = ({ event, setEvent, id, className, onEventChange }) => {
   const [events, setEvents] = useState([]);
-  const [event, setEvent] = useState({});
 
   const listEvents = async (title) => {
     try {
@@ -22,27 +21,30 @@ const EventSearch = ({ id, className, onEventChange }) => {
 
   return (
     <div id={`${id}`} className={`${className}`}>
-      <SearchBar
-        id="searchBar"
-        className="searchBar position-fixed z-1 m-2"
-        onChangeCallback={(value) => {
-          listEvents(value);
-          setEvent({});
-        }}
-      />
-      <EventList
-        events={events}
-        id=""
-        className="position-fixed z-1 m-2"
-        onClickCallback={(item) => {
-          setEvent(item);
-        }}
-      />
-      <EventCard
-        id=""
-        className="position-fixed z-1 float-right"
-        event={event}
-      />
+      <div>
+        <SearchBar
+          id="searchBar"
+          className="searchBar"
+          onChangeCallback={(value) => {
+            listEvents(value);
+            setEvent({});
+          }}
+        />
+      </div>
+      <div>
+        <EventList
+          events={events}
+          id=""
+          className="mt-2"
+          onClickCallback={(item) => {
+            setEvent(item);
+            setEvents([]);
+          }}
+        />
+      </div>
+      <div>
+        <EventCard id="" className="mt-2" event={event} />
+      </div>
     </div>
   );
 };

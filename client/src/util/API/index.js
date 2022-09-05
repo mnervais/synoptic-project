@@ -46,15 +46,11 @@ export const listEvents = async () => {
   }
 };
 
-export const addEvent = async (
-  title,
-  date,
-  time,
-  description,
-  contact,
-  long,
-  lat
-) => {
+export const addEvent = async (inputs, callback) => {
+  let { title, date, description, contact, long, lat } = inputs;
+  let time = date.split("T")[1];
+  date = date.split("T")[0];
+
   let endpoint =
     process.env.NODE_ENV === "production"
       ? process.env.REACT_APP_API_ENDPOINT_PRODUCTION
@@ -62,23 +58,23 @@ export const addEvent = async (
   endpoint += `/events`;
 
   let xhr = new XMLHttpRequest();
-  xhr.open("PUT", endpoint);
+  xhr.open("POST", endpoint);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      console.log(xhr.status);
-      console.log(xhr.responseText);
+      callback(xhr.responseText);
     }
   };
 
-  let data = `{
-    "title":       ${title},
-    "date":        ${date},
-    "time":        ${time},
-    "description": ${description},
-    "contact":     ${contact},
-    "long":        ${long},
-    "lat":         ${lat}
-  }`;
-  xhr.send(data);
+  let data = {
+    title: title,
+    date: date,
+    time: time,
+    description: description,
+    contact: contact,
+    long: long,
+    lat: lat,
+  };
+
+  xhr.send(JSON.stringify(data));
 };
