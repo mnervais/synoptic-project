@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { addEvent as AddEvent } from "../../util/API";
 
 import AppModal from "../molecules/AppModal";

@@ -1,11 +1,11 @@
-const AppListItem = ({ id, className, role, onClickCallback, children }) => {
+const AppListItem = ({ id, className, role, onClick, children }) => {
   return (
     <li
       id={id}
       className={`list-group-item ${className} `}
       role={role}
       onClick={() => {
-        onClickCallback();
+        onClick();
       }}
     >
       {children}

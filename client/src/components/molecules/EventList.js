@@ -1,13 +1,13 @@
 import AppListItem from "../atoms/AppListItem";
 
-const EventList = ({ id, className, events, onClickCallback }) => {
+const EventList = ({ id, className, events, onClick }) => {
   return (
     !events.length > 0 || (
       <ul id={`${id}`} className={`${className} list-group`}>
         <AppListItem
           id=""
           className="list-group-item-success"
-          onClickCallback={() => {}}
+          onClick={() => {}}
         >
           Results
         </AppListItem>
@@ -18,8 +18,8 @@ const EventList = ({ id, className, events, onClickCallback }) => {
               id=""
               className=""
               role="button"
-              onClickCallback={() => {
-                onClickCallback(item);
+              onClick={() => {
+                onClick(item);
               }}
             >
               {item.title}

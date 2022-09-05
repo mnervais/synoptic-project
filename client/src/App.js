@@ -8,11 +8,6 @@ import EventInputModal from "./components/organisms/EventInputModal";
 
 import "./App.css";
 
-const containerStyle = {
-  width: "100vw",
-  height: "100vh",
-};
-
 function App() {
   const [map, setMap] = useState(null);
   const [center, setCenter] = useState({
@@ -93,7 +88,10 @@ function App() {
         </div>
 
         <GoogleMap
-          mapContainerStyle={containerStyle}
+          mapContainerStyle={{
+            width: "100vw",
+            height: "100vh",
+          }}
           center={center}
           clickableIcons={false}
           zoom={zoom}
@@ -122,9 +120,7 @@ function App() {
                   setEvent(item);
                   setZoom(15);
                 }}
-              >
-                <script value={item}></script>
-              </Marker>
+              />
             );
           })}
         </GoogleMap>
