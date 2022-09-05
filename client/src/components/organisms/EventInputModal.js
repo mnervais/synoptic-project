@@ -149,7 +149,7 @@ const EventInputModal = ({
           </AppButton>
           <AppButton
             id="button"
-            className=""
+            className="submit"
             type="button"
             onClick={() => addEvent()}
             onClickCallback={() => {}}
