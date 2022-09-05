@@ -1,7 +1,11 @@
 import AppCard from "../atoms/AppCard";
 
 const EventCard = ({ id, className, event }) => {
-  let date = new Date(event.date);
+  let convertedEventdate = event.date;
+  try {
+    convertedEventdate = event.date.split("-").reverse().join("-");
+  } catch (err) {}
+  let date = new Date(convertedEventdate);
   let day = date.getUTCDate();
   let month = date.getUTCMonth() + 1;
   let year = date.getUTCFullYear();
