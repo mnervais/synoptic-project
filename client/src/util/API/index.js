@@ -1,9 +1,5 @@
 export const listEventsByBounds = async (north, east, south, west) => {
-  let endpoint =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_ENDPOINT_PRODUCTION
-      : process.env.REACT_APP_API_ENDPOINT_DEV;
-  endpoint += `/events?north=${north}&east=${east}&south=${south}&west=${west}`;
+  let endpoint = `/events?north=${north}&east=${east}&south=${south}&west=${west}`;
 
   try {
     const response = await fetch(endpoint);
@@ -15,11 +11,7 @@ export const listEventsByBounds = async (north, east, south, west) => {
 };
 
 export const listEventsByTitle = async (title) => {
-  let endpoint =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_ENDPOINT_PRODUCTION
-      : process.env.REACT_APP_API_ENDPOINT_DEV;
-  endpoint += `/events?title=${title}`;
+  let endpoint = `/events?title=${title}`;
 
   try {
     const response = await fetch(endpoint);
@@ -31,11 +23,7 @@ export const listEventsByTitle = async (title) => {
 };
 
 export const listEvents = async () => {
-  let endpoint =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_ENDPOINT_PRODUCTION
-      : process.env.REACT_APP_API_ENDPOINT_DEV;
-  endpoint += `/events`;
+  let endpoint = `/events`;
 
   try {
     const response = await fetch(endpoint);
@@ -51,11 +39,7 @@ export const addEvent = async (inputs, callback) => {
   let time = date.split("T")[1];
   date = date.split("T")[0];
 
-  let endpoint =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_API_ENDPOINT_PRODUCTION
-      : process.env.REACT_APP_API_ENDPOINT_DEV;
-  endpoint += `/events`;
+  let endpoint = `/events`;
 
   let xhr = new XMLHttpRequest();
   xhr.open("POST", endpoint);
