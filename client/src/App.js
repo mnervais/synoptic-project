@@ -109,8 +109,6 @@ function App() {
           onIdle={listEventsByBounds}
           options={{ disableDoubleClickZoom: true }}
           onDblClick={(e) => {
-            document.querySelector("#titleInput").setAttribute("value", "");
-            console.log(document.querySelector("#titleInput"));
             setDdClickLong(e.latLng.lng());
             setDdClickLat(e.latLng.lat());
             setEventInputModalOpen(true);

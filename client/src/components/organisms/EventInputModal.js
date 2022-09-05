@@ -83,7 +83,6 @@ const EventInputModal = ({
                 name="date"
                 type="datetime-local"
                 defaultValue={inputs.date}
-                min={inputs.date}
                 onChangeCallback={(e) => onChangeCallback(e)}
               />
             </div>
