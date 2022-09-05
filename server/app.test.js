@@ -96,83 +96,17 @@ describe("Events API", () => {
         );
       });
   });
-  it("GET  /events?long                     --> array of events that equals longitude", () => {
-    return request(app)
-      .get("/events?long=51.919629")
-      .expect("Content-Type", /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(Number),
-              title: expect.any(String),
-              date: expect.any(String),
-              time: expect.any(String),
-              description: expect.any(String),
-              contact: expect.any(String),
-              long: 51.919629,
-              lat: expect.any(Number),
-            }),
-          ])
-        );
-      });
-  });
-  it("GET  /events?lat                      --> array of events that equals latitude", () => {
-    return request(app)
-      .get("/events?lat=-0.656912")
-      .expect("Content-Type", /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(Number),
-              title: expect.any(String),
-              date: expect.any(String),
-              time: expect.any(String),
-              description: expect.any(String),
-              contact: expect.any(String),
-              long: expect.any(Number),
-              lat: -0.656912,
-            }),
-          ])
-        );
-      });
-  });
-  it("GET  /events?long?lat?radius          --> array of events that are within the radius of the location", () => {
-    return request(app)
-      .get("/events?long=51.919629&lat=-0.656912&radius=10")
-      .expect("Content-Type", /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(Number),
-              title: expect.any(String),
-              date: expect.any(String),
-              time: expect.any(String),
-              description: "Inside event 1s 10 mile radius",
-              contact: expect.any(String),
-              long: expect.any(Number),
-              lat: expect.any(Number),
-            }),
-          ])
-        );
-      });
-  });
 
   // /events/:id
   it("GET  /events/:id                      --> event by id", () => {
     return request(app)
-      .get("/events/13")
+      .get("/events/50")
       .expect("Content-Type", /json/)
       .expect(200)
       .then((response) => {
         expect(response.body).toEqual(
           expect.objectContaining({
-            id: 13,
+            id: 50,
             title: expect.any(String),
             date: expect.any(String),
             time: expect.any(String),
