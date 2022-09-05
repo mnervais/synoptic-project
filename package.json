@@ -1,10 +1,10 @@
 {
   "name": "interactive-community-events-map",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "private": true,
   "author": "Michael Nervais",
   "scripts": {
-    "start": "cd server && npm install && node app.js",
+    "start": "cd server && npm install && NODE_ENV=production node app.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {},
