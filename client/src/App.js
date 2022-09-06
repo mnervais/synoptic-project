@@ -40,16 +40,17 @@ function App() {
   const listEventsByBounds = async () => {
     // load events
     try {
-      const initalEvents = await ListEventsByBounds(
+      let initalEvents = await ListEventsByBounds(
         map.getBounds().getNorthEast().lat(),
         map.getBounds().getNorthEast().lng(),
         map.getBounds().getSouthWest().lat(),
         map.getBounds().getSouthWest().lng()
       );
 
-      initalEvents.forEach((event, index) => {
-        if (eventExpired(event)) initalEvents.splice(index, 1);
-      });
+      for (var i = initalEvents.length - 1; i >= 0; i--) {
+        let event = initalEvents[i];
+        if (eventExpired(event)) initalEvents.splice(i, 1);
+      }
 
       setEvents(initalEvents);
     } catch (err) {}

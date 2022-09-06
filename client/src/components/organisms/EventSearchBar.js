@@ -19,9 +19,11 @@ const EventSearch = ({
   const listEvents = async (title) => {
     try {
       const listEvents = await listEventsByTitle(title);
-      listEvents.forEach((event, index) => {
-        if (eventExpired(event)) listEvents.splice(index, 1);
-      });
+
+      for (var i = listEvents.length - 1; i >= 0; i--) {
+        let event = listEvents[i];
+        if (eventExpired(event)) listEvents.splice(i, 1);
+      }
 
       setEvents(listEvents);
       setFilteredEvents(listEvents);
